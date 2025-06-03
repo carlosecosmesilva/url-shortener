@@ -1,36 +1,44 @@
-# Build results
+## .NET Core
 bin/
 obj/
-
-# User-specific files
 *.user
-*.suo
 *.userosscache
-*.sln.docstates
-
-# VS Code settings
+*.suo
+*.userprefs
+.vs/
 .vscode/
-
-# OS generated files
+*.swp
+*.*~
+project.lock.json
 .DS_Store
-Thumbs.db
+*.pyc
 
-# SQLite database files
+## SQLite database files
 *.db
 *.db-shm
 *.db-wal
 
-# Entity Framework migrations (optional, if you want to ignore generated migrations)
-# Migrations/
+## IDE - Visual Studio
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
 
-# ASP.NET Core environment files
-appsettings.Development.json
-
-# Rider IDE files
+## Rider
 .idea/
 
-# Logs
+## User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Logs
+logs/
 *.log
 
-# Others
-*.swp
+## Environment variables
+.env
+.env.local
+.env.*.local
