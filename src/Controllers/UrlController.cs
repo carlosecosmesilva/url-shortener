@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using UrlShortener.Services.Interfaces;
 
 [ApiController]
-[Route("")]
+[Route("[controller]")]
 public class UrlController : ControllerBase
 {
     private readonly IUrlService _urlService;
@@ -13,12 +14,21 @@ public class UrlController : ControllerBase
         _httpContext = httpContext;
     }
 
-    [HttpPost("shorten")]
-    public async Task<IActionResult> ShortenUrl([FromBody] UrlDto dto)
+    [HttpPost]
+    public async Task<IActionResult> CreateShortUrl([FromBody] CreateShortUrlRequest request)
     {
-        var shortCode = await _urlService.ShortenUrlAsync(dto.LongUrl);
-        var baseUrl = $"{Request.Scheme}://{Request.Host}";
-        return Ok(new { short_url = $"{baseUrl}/{shortCode}" });
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var sanitizedUrl = request.Url.Trim();
+
+        if (!sanitizedUrl.StartsWith("http://") && !sanitizedUrl.StartsWith("https://"))
+            return BadRequest("Only http and https URLs are allowed.");
+
+        sanitizedUrl = sanitizedUrl.TrimEnd('/');
+
+        var result = await _urlService.CreateShortUrlAsync(sanitizedUrl);
+        return Ok(result);
     }
 
     [HttpGet("{shortCode}")]
