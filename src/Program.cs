@@ -5,6 +5,8 @@ using UrlShortener.Data;
 using UrlShortener.Models;
 using UrlShortener.Services;
 using UrlShortener.Services.Interfaces;
+using FluentValidation;
+using UrlShortener.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,8 +15,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=urls.db"));
 
 builder.Services.AddScoped<IUrlService, UrlService>();
-builder.Services.AddControllers()
-    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateShortUrlRequestValidator>());
+builder.Services.AddControllers();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateShortUrlRequestValidator>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
