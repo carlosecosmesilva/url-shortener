@@ -1,0 +1,66 @@
+# Build results
+bin/
+obj/
+out/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# Rider
+.idea/
+*.sln.iml
+
+# VS Code
+.vscode/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# DotCover
+*.dotCover
+
+# NCrunch
+*.ncrunch*
+.*crunch*.local.xml
+
+# Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
+*.sap
+
+# IIS Express
+.vs/
+*.vspscc
+*.vssscc
+
+# Entity Framework
+Migrations/
+
+# Logs
+*.log
+
+# Others
+TestResults/
+*.dbmdl
+*.bak
+*.backup
+*.mdf
+*.ldf
+
+# Local secrets
+secrets.json
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# Dotnet tools
+.localhistory/
