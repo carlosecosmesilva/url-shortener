@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styles from "./UrlForm.module.css";
 
 interface UrlFormProps {
     onSubmit: (url: string) => Promise<void>;
@@ -15,19 +16,28 @@ export default function UrlForm({ onSubmit, loading }: UrlFormProps) {
     };
 
     return (
-        <form className="home-form" onSubmit={handleSubmit}>
-            <label htmlFor="url">Paste your long URL:</label>
-            <input
-                id="url"
-                type="url"
-                value={input}
-                onChange={e => setInput(e.target.value)}
-                placeholder="https://example.com"
-                required
-            />
-            <button type="submit" disabled={loading}>
-                {loading ? "Shortening..." : "Shorten"}
-            </button>
+        <form className={styles["url-form-container"]} onSubmit={handleSubmit}>
+            <label htmlFor="url" className={styles["url-form-label"]}>
+                Paste your long URL:
+            </label>
+            <div className={styles["url-form-row"]}>
+                <input
+                    id="url"
+                    type="url"
+                    value={input}
+                    onChange={e => setInput(e.target.value)}
+                    placeholder="https://example.com"
+                    required
+                    className={styles["url-form-input"]}
+                />
+                <button
+                    type="submit"
+                    disabled={loading}
+                    className={styles["url-form-btn"]}
+                >
+                    {loading ? "Shortening..." : "Shorten"}
+                </button>
+            </div>
         </form>
     );
 }

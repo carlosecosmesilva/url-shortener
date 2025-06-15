@@ -13,13 +13,31 @@ export default function AppRoutes() {
         <Routes>
             <Route path="/login" element={<Login />} />
             <Route
-                path="/"
+                path="/home"
                 element={
                     <PrivateRoute>
                         <Home />
                     </PrivateRoute>
                 }
             />
+            <Route
+                path="/home/new"
+                element={
+                    <PrivateRoute>
+                        <Home showFormInitial={true} />
+                    </PrivateRoute>
+                }
+            />
+            <Route
+                path="/home/edit/:id"
+                element={
+                    <PrivateRoute>
+                        <Home editMode={true} />
+                    </PrivateRoute>
+                }
+            />
+            {/* Redireciona "/" para "/home" */}
+            <Route path="/" element={<Navigate to="/home" />} />
         </Routes>
     );
 }
