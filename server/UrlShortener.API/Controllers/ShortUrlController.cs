@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using UrlShortener.API.DTOs;
 using UrlShortener.API.Models;
 using UrlShortener.API.Services;
 
@@ -55,18 +56,18 @@ public class ShortUrlController(ShortUrlService service) : ControllerBase
     /// <summary>
     /// Creates a new short URL.
     /// </summary>
-    /// <param name="originalUrl">The original URL to shorten.</param>
+    /// <param name="request">The request containing the original URL to shorten.</param>
     /// <returns>The created short URL.</returns>
     /// <response code="201">Returns the created short URL.</response>
     /// <response code="400">If the original URL is invalid.</response>
     /// <response code="500">If there is an internal server error.</response>
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] string originalUrl)
+    public async Task<IActionResult> Create([FromBody] ShortUrlRequest request)
     {
-        if (string.IsNullOrWhiteSpace(originalUrl))
-            return BadRequest("URL inválida.");
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
 
-        var shortUrl = await _service.CreateShortUrlAsync(originalUrl);
+        var shortUrl = await _service.CreateShortUrlAsync(request.OriginalUrl);
         return CreatedAtAction(nameof(GetById), new { id = shortUrl.Id }, shortUrl);
     }
 

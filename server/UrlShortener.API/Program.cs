@@ -31,8 +31,8 @@ builder.Services.AddSwaggerGen(options =>
         Description = "API for creating and managing short URLs.",
         Contact = new Microsoft.OpenApi.Models.OpenApiContact
         {
-            Name = "Your Name",
-            Email = "your@email.com"
+            Name = "Carlos Eduardo",
+            Email = "carlos.eduardo.cs@outlook.com"
         }
     });
 });
@@ -95,6 +95,18 @@ builder.Services.AddMassTransit(x =>
     });
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:5173") // Porta do Vite/React
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -104,6 +116,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors(); // Antes de UseAuthentication/UseAuthorization
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
