@@ -4,14 +4,9 @@ using UrlShortener.API.Models;
 
 namespace UrlShortener.API.Repositories;
 
-public class ShortUrlRepository : IShortUrlRepository
+public class ShortUrlRepository(AppDbContext context) : IShortUrlRepository
 {
-    private readonly AppDbContext _context;
-
-    public ShortUrlRepository(AppDbContext context)
-    {
-        _context = context;
-    }
+    private readonly AppDbContext _context = context;
 
     public async Task<IEnumerable<ShortUrl>> GetAllAsync() =>
         await _context.ShortUrls.ToListAsync();
@@ -35,14 +30,16 @@ public class ShortUrlRepository : IShortUrlRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(int id)
+    public async Task<bool> DeleteAsync(int id)
     {
         var shortUrl = await _context.ShortUrls.FindAsync(id);
         if (shortUrl != null)
         {
             _context.ShortUrls.Remove(shortUrl);
             await _context.SaveChangesAsync();
+            return true;
         }
+        return false;
     }
 
     public async Task IncrementAccessCountAsync(ShortUrl shortUrl)

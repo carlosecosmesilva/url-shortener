@@ -13,4 +13,7 @@ public class ShortUrl
     public string ShortCode { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public int AccessCount { get; set; } = 0;
+
+    [NotMapped]
+    public string? ShortUrlValue { get; set; }
 }

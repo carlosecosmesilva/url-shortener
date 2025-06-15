@@ -9,6 +9,6 @@ public interface IShortUrlRepository
     Task<ShortUrl?> GetByIdAsync(int id);
     Task<ShortUrl> CreateAsync(ShortUrl shortUrl);
     Task UpdateAsync(ShortUrl shortUrl);
-    Task DeleteAsync(int id);
+    Task<bool> DeleteAsync(int id);
     Task IncrementAccessCountAsync(ShortUrl shortUrl);
 }

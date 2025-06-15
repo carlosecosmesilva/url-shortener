@@ -6,14 +6,9 @@ namespace UrlShortener.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ShortUrlController : ControllerBase
+public class ShortUrlController(ShortUrlService service) : ControllerBase
 {
-    private readonly ShortUrlService _service;
-
-    public ShortUrlController(ShortUrlService service)
-    {
-        _service = service;
-    }
+    private readonly ShortUrlService _service = service;
 
     /// <summary>
     /// Gets all short URLs.
