@@ -36,6 +36,22 @@
     transition: border 0.2s;
 }
 
+.url-form-input:-webkit-autofill,
+.url-form-input:-webkit-autofill:focus,
+.url-form-input:-webkit-autofill:hover,
+.url-form-input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #f9f9f9 inset !important;
+    box-shadow: 0 0 0 1000px #f9f9f9 inset !important;
+    -webkit-text-fill-color: #222 !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+input:-moz-autofill,
+input:-moz-autofill:focus {
+    box-shadow: 0 0 0 1000px #f9f9f9 inset !important;
+    -moz-text-fill-color: #222 !important;
+}
+
 .url-form-input:focus {
     border: 1.5px solid #007bff;
     outline: none;

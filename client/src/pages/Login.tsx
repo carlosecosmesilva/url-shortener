@@ -7,9 +7,11 @@ export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState<string | null>(null);
+    const [isRegister, setIsRegister] = useState(false);
+    const [registerSuccess, setRegisterSuccess] = useState(false);
     const navigate = useNavigate();
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
         try {
@@ -17,26 +19,33 @@ export default function Login() {
             localStorage.setItem("accessToken", response.data.accessToken);
             localStorage.setItem("refreshToken", response.data.refreshToken);
             navigate("/");
-        } catch (err: unknown) {
-            type ErrorResponse = { response?: { data: string } };
-            if (
-                err &&
-                typeof err === "object" &&
-                "response" in err &&
-                (err as ErrorResponse).response &&
-                typeof (err as ErrorResponse).response?.data === "string"
-            ) {
-                setError((err as ErrorResponse).response!.data);
-            } else {
-                setError("Login failed");
-            }
+        } catch {
+            setError("Login failed");
+        }
+    };
+
+    const handleRegister = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError(null);
+        setRegisterSuccess(false);
+        try {
+            await api.post("/auth/register", { username, password });
+            setRegisterSuccess(true);
+            setIsRegister(false);
+            setUsername("");
+            setPassword("");
+        } catch {
+            setError("Registration failed");
         }
     };
 
     return (
         <div className={styles["login-container"]}>
-            <h1 className={styles["login-title"]}>Login</h1>
-            <form className={styles["login-form"]} onSubmit={handleSubmit}>
+            <h1 className={styles["login-title"]}>{isRegister ? "Create Account" : "Login"}</h1>
+            <form
+                className={styles["login-form"]}
+                onSubmit={isRegister ? handleRegister : handleLogin}
+            >
                 <label htmlFor="username">Username:</label>
                 <input
                     id="username"
@@ -53,9 +62,40 @@ export default function Login() {
                     onChange={e => setPassword(e.target.value)}
                     required
                 />
-                <button type="submit">Login</button>
+                <button type="submit">{isRegister ? "Register" : "Login"}</button>
             </form>
             {error && <div className="error-message">{error}</div>}
+            {registerSuccess && (
+                <div style={{ color: "green", marginTop: 12 }}>
+                    Registration successful! You can now log in.
+                </div>
+            )}
+            <div style={{ marginTop: 16 }}>
+                {isRegister ? (
+                    <button
+                        type="button"
+                        className={styles["toggle-btn"]}
+                        onClick={() => {
+                            setIsRegister(false);
+                            setError(null);
+                        }}
+                    >
+                        Back to Login
+                    </button>
+                ) : (
+                    <button
+                        type="button"
+                        className={styles["toggle-btn"]}
+                        onClick={() => {
+                            setIsRegister(true);
+                            setError(null);
+                            setRegisterSuccess(false);
+                        }}
+                    >
+                        Create Account
+                    </button>
+                )}
+            </div>
         </div>
     );
 }

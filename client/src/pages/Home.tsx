@@ -4,7 +4,7 @@ import api from "../api";
 import UrlForm from "../components/UrlForm";
 import Dashboard from "./Dashboard";
 import styles from "./Home.module.css";
-import { FaLink } from "react-icons/fa";
+import { FaLink, FaSignOutAlt } from "react-icons/fa";
 
 interface HomeProps {
     showFormInitial?: boolean;
@@ -60,6 +60,13 @@ export default function Home({ showFormInitial = false, editMode = false }: Home
         navigate("/home");
     }, [navigate]);
 
+    // Função de logout
+    const handleLogout = () => {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        navigate("/login");
+    };
+
     return (
         <div className={styles["home-container"]}>
             <div className={styles["header-area"]}>
@@ -67,22 +74,22 @@ export default function Home({ showFormInitial = false, editMode = false }: Home
                     <FaLink style={{ verticalAlign: "middle", marginRight: 8 }} />
                     URL Shortener
                 </h1>
-                <div className={styles["short-btn-area"]}>
-                    {showDashboard ? (
-                        <button
-                            className={styles["toggle-btn"]}
-                            onClick={handleShowForm}
-                        >
-                            Short URL
-                        </button>
-                    ) : (
-                        <button
-                            className={styles["toggle-btn"]}
-                            onClick={handleShowDashboard}
-                        >
-                            Back
-                        </button>
-                    )}
+                <div style={{ display: "flex", justifyContent: "flex-end", gap: 12 }}>
+                    <button
+                        className={styles["toggle-btn"]}
+                        onClick={showDashboard ? handleShowForm : handleShowDashboard}
+                    >
+                        {showDashboard ? "Short URL" : "Back"}
+                    </button>
+                    <button
+                        className={styles["toggle-btn"]}
+                        style={{ background: "#d32f2f" }}
+                        onClick={handleLogout}
+                        title="Logout"
+                    >
+                        <FaSignOutAlt style={{ marginRight: 6, verticalAlign: "middle" }} />
+                        Logout
+                    </button>
                 </div>
             </div>
 

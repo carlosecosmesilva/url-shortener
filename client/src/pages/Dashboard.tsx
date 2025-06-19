@@ -4,10 +4,12 @@ import styles from "./Dashboard.module.css";
 import { FaTrash, FaRegEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
+const SHORT_URL_BASE = "https://localhost:5142/r/";
+
 interface ShortUrl {
     id: string;
     originalUrl: string;
-    shortUrl: string;
+    shortCode: string;
     createdAt: string;
 }
 
@@ -58,8 +60,9 @@ export default function Dashboard() {
         setEditingId(null);
     };
 
-    const handleCopy = (shortUrl: string, id: string) => {
-        navigator.clipboard.writeText(shortUrl);
+    const handleCopy = (shortCode: string, id: string) => {
+        const fullShortUrl = SHORT_URL_BASE + shortCode;
+        navigator.clipboard.writeText(fullShortUrl);
         setCopiedId(id);
         setTimeout(() => setCopiedId(null), 1200);
     };
@@ -97,12 +100,9 @@ export default function Dashboard() {
                             </td>
                             <td>
                                 <div className={styles["short-url-cell"]}>
-                                    <a href={url.shortUrl} target="_blank" rel="noopener noreferrer">
-                                        {url.shortUrl}
-                                    </a>
                                     <button
                                         className={styles["copy-btn"]}
-                                        onClick={() => handleCopy(url.shortUrl, url.id)}
+                                        onClick={() => handleCopy(url.shortCode, url.id)}
                                     >
                                         {copiedId === url.id ? "Copied!" : "Copy"}
                                     </button>

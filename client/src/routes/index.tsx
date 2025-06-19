@@ -1,12 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
-import type { JSX } from "react";
-
-function PrivateRoute({ children }: { children: JSX.Element }) {
-    const token = localStorage.getItem("accessToken");
-    return token ? children : <Navigate to="/login" />;
-}
+import PrivateRoute from "./PrivateRoute";
 
 export default function AppRoutes() {
     return (
