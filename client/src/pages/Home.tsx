@@ -21,10 +21,8 @@ export default function Home({ showFormInitial = false, editMode = false }: Home
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Se estiver em modo edição, pode buscar dados da URL para edição
         if (editMode && id) {
             setShowDashboard(false);
-            // Aqui você pode buscar a URL pelo id e preencher o formulário se quiser
         }
     }, [editMode, id]);
 
